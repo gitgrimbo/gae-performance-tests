@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+<script src='//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js'></script>
+<script src="timings.js"></script>
+
+<style>
+body {
+    font-family: "Tahoma";
+    font-size: 10pt;
+}
+#content table, #content tr, #content th, #content td {
+    font-size: 9pt;
+    font-family: "Tahoma";
+}
+#content table {
+    border-collapse: collapse;
+}
+#content td {
+    border: solid 1px gray;
+    padding: 0;
+    margin: 0;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+#content td.select {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+#content td.time, #content td.delta {
+    font-family: "Lucida Console";
+    text-align: right;
+}
+#content tr.selected {
+    background: #e0e0e0;
+}
+</style>
+
+</head>
+
+<body>
+
+<select id="tests">
+    <option>/HelloWorldServlet1
+    <option>/HelloWorldServlet2
+    <option>/SpringDispatcherServlet/index
+    <option>/WithAnnotationsSpringDispatcherServlet/index
+    <option>/WithAnnotationsAndAOPSpringDispatcherServlet/index
+</select>
+
+<button>Run Test</button>
+
+<img src="//raw.github.com/github/media/master/octocats/blacktocat-16.png" align="bottom"> <a href="//github.com/gitgrimbo/gae-performance-tests">Source available in GitHub</a>.
+
+<div id="content"></div>
+
+<script>
+var recordingsManager = new RecordingsManager();
+
+$("button").click(function (evt) {
+    evt.preventDefault();
+    evt.stopPropagation();
+
+    var $btn = $(this);
+	$btn.prop("disabled", true);
+
+	var sel = $("#tests")[0];
+	var href = $(sel.options[sel.selectedIndex]).val();
+
+	recordingsManager.load(href, $("#content")).always(function (evt) {
+		$btn.prop("disabled", false);
+	});
+});
+</script>
+
+</body>
+
+</html>
